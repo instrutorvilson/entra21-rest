@@ -1,9 +1,24 @@
 package com.example.aula.entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_contatos")
 public class Contato {
+	@Id
+	@GeneratedValue( strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column( length = 50)
 	private String nome;
+	@Column( length = 100)
 	private String email;
+	@Column( length = 14)
 	private String fone;
 
 	public Long getId() {
