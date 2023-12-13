@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.aula.entidades.Contato;
 import com.example.aula.repositories.ContatoRepository;
+import com.example.aula.services.ContatoService;
 
 @RestController
 @RequestMapping("/contatos") /*http://localhost:8080*/
@@ -26,6 +27,9 @@ public class ContatoController {
 	
 	@Autowired
 	ContatoRepository repo;
+	
+	@Autowired
+	ContatoService service;
 	
 	@PostMapping
 	public ResponseEntity<Contato> salvar(@RequestBody Contato contato) {
@@ -99,13 +103,14 @@ public class ContatoController {
 				return ResponseEntity.status(HttpStatus.OK).body(contato);				
 			}
 		}*/
-		Optional<Contato> opt = repo.findById(idcontato);
+		/*Optional<Contato> opt = repo.findById(idcontato);
 		try {
 		    Contato ct = opt.get();
 		    return ResponseEntity.status(HttpStatus.OK).body(ct);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contato não encontrado");
-		}				
+		}	*/
+		return ResponseEntity.status(HttpStatus.OK).body(service.consultar(idcontato));
 	}
 }
