@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.aula.entidades.Contato;
 import com.example.aula.exceptions.RecursoNaoEncontrado;
+import com.example.aula.exceptions.ValidaDadosException;
 import com.example.aula.repositories.ContatoRepository;
 
 @Service
@@ -36,18 +37,18 @@ public class ContatoService {
 	
 	private void validaCampos(Contato contato) {
 		if(contato.getNome().equals("")) {
-			throw new RecursoNaoEncontrado("O nome deve ser informado");
+			throw new ValidaDadosException("O nome deve ser informado");
 		}
 		if(contato.getEmail().equals("")) {
-			throw new RecursoNaoEncontrado("O email deve ser informado");
+			throw new ValidaDadosException("O email deve ser informado");
 		}
 		
 		if(contato.getFone() == null ) {
-			throw new RecursoNaoEncontrado("O fone deve ser informado");
+			throw new ValidaDadosException("O fone deve ser informado");
 		}
 		else {
 			if(contato.getFone().equals("")) {
-				throw new RecursoNaoEncontrado("O fone deve ser informado");
+				throw new ValidaDadosException("O fone deve ser informado");
 			}
 		}
 	}

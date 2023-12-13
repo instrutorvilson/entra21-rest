@@ -22,4 +22,15 @@ public class ResourceExceptionHandler {
 		err.setPath(req.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
+	
+	@ExceptionHandler(ValidaDadosException.class)
+	public ResponseEntity<StandardError> validaDadosException(ValidaDadosException e, HttpServletRequest req) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Campo inválido");
+		err.setMessage(e.getMessage());
+		err.setPath(req.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
 }
