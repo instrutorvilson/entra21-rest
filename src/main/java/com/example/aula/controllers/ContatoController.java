@@ -35,8 +35,9 @@ public class ContatoController {
 	public ResponseEntity<Contato> salvar(@RequestBody Contato contato) {
 		/*contato.setId(contatos.size()+1l);
 		contatos.add(contato);*/
-		repo.save(contato);
-		return ResponseEntity.status(HttpStatus.CREATED).body(contato);
+		/*repo.save(contato);
+		return ResponseEntity.status(HttpStatus.CREATED).body(contato);*/
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(contato));
 	}
 	
 	@PutMapping("/{idcontato}")
