@@ -53,7 +53,7 @@ public class ContatoController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contato não encontrado");	
 		*/
-		Optional<Contato> opt = repo.findById(idcontato);
+		/*Optional<Contato> opt = repo.findById(idcontato);
 		try {
 		    Contato ct = opt.get();
 		    ct.setNome(contato.getNome());	
@@ -64,7 +64,8 @@ public class ContatoController {
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contato não encontrado");
-		}	
+		}	*/
+		return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idcontato, contato));
 	}
 	
 	@DeleteMapping("/{idcontato}")
