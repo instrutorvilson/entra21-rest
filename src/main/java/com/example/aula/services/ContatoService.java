@@ -22,6 +22,11 @@ public class ContatoService {
 		return ct;						
 	}
 	
+	public void excluir(Long id) {
+		Contato ct = consultar(id);
+		repo.delete(ct);
+	}
+	
 	public Contato salvar(Contato contato) {
 		/*faer validações*/
 		validaCampos(contato);

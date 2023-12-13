@@ -69,7 +69,7 @@ public class ContatoController {
 	}
 	
 	@DeleteMapping("/{idcontato}")
-	public ResponseEntity<Object> excluir(@PathVariable("idcontato") Long idcontato) {
+	public ResponseEntity<?> excluir(@PathVariable("idcontato") Long idcontato) {
 		/*for(Contato ct : contatos) {
 			if(ct.getId() == idcontato) {
 			  contatos.remove(ct);
@@ -78,7 +78,7 @@ public class ContatoController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contato não encontrado");	
 		*/
-		Optional<Contato> opt = repo.findById(idcontato);
+		/*Optional<Contato> opt = repo.findById(idcontato);
 		try {
 		    Contato ct = opt.get();
 		    repo.delete(ct);
@@ -86,7 +86,9 @@ public class ContatoController {
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contato não encontrado");
-		}	
+		}*/
+		service.excluir(idcontato);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
 	/*@GetMapping
