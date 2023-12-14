@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.aula.entidades.Contato;
+import com.example.aula.exceptions.RecursoJaExistente;
 import com.example.aula.exceptions.RecursoNaoEncontrado;
 import com.example.aula.exceptions.ValidaDadosException;
 import com.example.aula.repositories.ContatoRepository;
@@ -28,8 +29,11 @@ public class ContatoService {
 	}
 	
 	public Contato salvar(Contato contato) {
-		/*faer validações*/
 		validaCampos(contato);
+		
+		if (repo.findByEmail(contato.getEmail()) != null) {
+			throw new RecursoJaExistente("Contato já cadastrado para esse email");
+		}		
 		return repo.save(contato);
 	}
 	
