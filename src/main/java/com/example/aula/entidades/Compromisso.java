@@ -8,7 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -26,7 +27,7 @@ public class Compromisso {
 	@Temporal(TemporalType.TIME)
 	private Time hora;
 	
-	@OneToOne
+	@ManyToOne
 	private Contato contato;
 
 	public Long getId() {
