@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.aula.entidades.Compromisso;
 import com.example.aula.entidades.Contato;
 import com.example.aula.repositories.CompromissosRepository;
-import com.example.aula.repositories.ContatoRepository;
 import com.example.aula.services.ContatoService;
 
 @RestController
@@ -40,6 +39,23 @@ public class CompromissoController {
     	return ResponseEntity.status(HttpStatus.OK).body(repo.findAllByContato(contato));
     }
     
+    @GetMapping("/data")
+    public ResponseEntity<List<Compromisso>> getAllByData(@RequestParam("data")
+    @DateTimeFormat(pattern = "dd-MM-yyyy") Date data){
+    	return ResponseEntity.status(HttpStatus.OK).body(repo.findAllByData(data));
+    }
+    /*@GetMapping("/contato/{idcontato}")
+    public ResponseEntity<List<Compromisso>> getAllByContato(@PathVariable("idcontato") Long id){
+    	Contato contato = serviceContato.consultar(id);
+    	return ResponseEntity.status(HttpStatus.OK).body(repo.findAllByContato(contato));
+    }*/
+    
+    @GetMapping("/intervalo-data")
+    public ResponseEntity<List<Compromisso>> getAllByIntervaloData(
+    		@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date dataInicio,
+            @RequestParam  @DateTimeFormat(pattern = "dd-MM-yyyy") Date dataFim){
+    	return ResponseEntity.status(HttpStatus.OK).body(repo.findAllByEntreDatas(dataInicio, dataFim));
+    }
        
     @PostMapping
     public ResponseEntity<Compromisso> save(@RequestBody Compromisso compromisso){
