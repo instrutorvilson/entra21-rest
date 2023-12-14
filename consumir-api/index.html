@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="consultar()">
+    <h1>Agenda</h1>
+    <button onclick="salvar()">salvar</button>
+    <button onclick="consultarById(1)">Consulta 1</button>
+    <button onclick="alterar(5)">Alterar</button>
+    <script>
+        function salvar(){
+            let obj = {
+                        nome: "zezinho",
+                        email: "zezinho@gmail.com",
+                        fone: "(47)9809-0987"
+                    }
+             fetch('http://localhost:8080/contatos',
+                {
+                   method: 'POST',
+                   body: JSON.stringify(obj),
+                   headers:{ 'Content-Type': 'application/json' }
+                }
+             )
+            .then(x => alert('inserido'))  
+            .catch(error => console.log(error))
+        }
+
+        function alterar(id){
+            let obj = {
+                        id: id,
+                        nome: "zezinho da silva",
+                        email: "zezinho@gmail.com",
+                        fone: "(47)9809-0987"
+                    }
+             fetch(`http://localhost:8080/contatos/${id}`,
+                {
+                   method: 'PUT',
+                   body: JSON.stringify(obj),
+                   headers:{ 'Content-Type': 'application/json' }
+                }
+             )
+            .then(x => alert('inserido'))  
+            .catch(error => console.log(error))
+        }
+        function consultar(){
+            fetch('http://localhost:8080/contatos')
+            .then(data => data.json())
+            .then(response => console.log(response))
+        }
+
+        function consultarById(id){
+            fetch(`http://localhost:8080/contatos/${id}`)
+            .then(data => data.json())
+            .then(response => console.log(response))
+        }
+    </script>
+</body>
+</html>
