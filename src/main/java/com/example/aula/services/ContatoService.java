@@ -33,14 +33,16 @@ public class ContatoService {
 		
 		if (repo.findByEmail(contato.getEmail()) != null) {
 			throw new RecursoJaExistente("Contato já cadastrado para esse email");
-		}		
+		}	
 		return repo.save(contato);
 	}
 	
 	public Contato alterar(Long idContato, Contato contato) {
 		Contato ct = consultar(idContato);
 		validaCampos(contato);
-		ct = contato;
+		ct.setNome(contato.getNome());
+		ct.setEmail(contato.getEmail());
+		ct.setFone(contato.getFone());
 		return repo.save(ct);
 	}
 	
