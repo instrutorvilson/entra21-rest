@@ -3,6 +3,8 @@ package com.example.aula.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class ContatoController {
 	ContatoService service;
 	
 	@PostMapping
-	public ResponseEntity<Contato> salvar(@RequestBody Contato contato) {
+	public ResponseEntity<Contato> salvar(@RequestBody  @Valid Contato contato) {
 		/*contato.setId(contatos.size()+1l);
 		contatos.add(contato);*/
 		/*repo.save(contato);

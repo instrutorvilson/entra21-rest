@@ -1,13 +1,18 @@
 package com.example.aula.exceptions;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -44,4 +49,26 @@ public class ResourceExceptionHandler {
 		err.setPath(req.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> validaDadosException(MethodArgumentNotValidException e, HttpServletRequest req) {
+	   /*extrai todas as ocorrências de erros*/
+		Map<String, String> errors = new HashMap<>();
+	    e.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put(fieldName, errorMessage);
+	    });
+	    StandardError err = new StandardError();
+	    err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Dados inconsistentes");
+		err.setMessage(errors.toString());
+		err.setPath(req.getRequestURI());
+	    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	
+
 }

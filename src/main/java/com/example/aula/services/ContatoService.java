@@ -29,7 +29,7 @@ public class ContatoService {
 	}
 	
 	public Contato salvar(Contato contato) {
-		validaCampos(contato);
+		//validaCampos(contato);
 		
 		if (repo.findByEmail(contato.getEmail()) != null) {
 			throw new RecursoJaExistente("Contato já cadastrado para esse email");
