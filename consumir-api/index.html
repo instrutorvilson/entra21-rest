@@ -10,10 +10,45 @@
     <button onclick="salvar()">salvar</button>
     <button onclick="consultarById(1)">Consulta 1</button>
     <button onclick="alterar(5)">Alterar</button>
+    <Button onclick="logar()">Login</Button>
+    <Button onclick="consultarContatos()">Contatos</Button>
     <script>
+          const headers = new Headers();
+          headers.append('Content-Type', 'application/x-www-form-urlencoded');
+          headers.append('Authorization', `Basic ${btoa('entra21:entra21-2023')}`); //quando acessa browser usa btoa em node base64
+       
+       function logar(){      
+            fetch('http://localhost:8080/oauth/token',
+            {
+               method: 'POST',
+               headers: headers,
+            body: new URLSearchParams({
+                  'username': 'maria@gmail.com',
+                  'password': '123456',
+                  'grant_type': 'password'
+                })
+            }) 
+            .then(data => data.json())
+            .then(response => {
+                let jsonToken = JSON.stringify(response)
+                sessionStorage.setItem('userLogado', JSON.parse(jsonToken).access_token )
+            }) 
+            .catch(error => console.error('Error:', error));
+        }
+               
+        function consultar(){
+            let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDMyNDcyNjgsInVzZXJfbmFtZSI6ImZlbGlwZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX09QRVJBRE9SIl0sImp0aSI6IjBiNGEyNTU4LWYwZTUtNDAwMC04MThkLWY2ODllZWExYTVkZCIsImNsaWVudF9pZCI6ImVudHJhMjEiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.z2y_Ahjp6__PqQbEU-SJEzUwKPJVQpPcJgtyGO14KWc'
+            fetch('http://localhost:8080/contatos',
+            {
+               headers:{'Authorization': `Bearer ${token}`}
+            })
+            .then(data => data.json())
+            .then(response => console.log(response))
+        }
+
         function salvar(){
             let obj = {
-                        nome: "zezinho",
+                        nome: "maria",
                         email: "zezinho@gmail.com",
                         fone: "(47)9809-0987"
                     }
@@ -45,16 +80,27 @@
             .then(x => alert('inserido'))  
             .catch(error => console.log(error))
         }
-        function consultar(){
-            fetch('http://localhost:8080/contatos')
+        
+        function consultarById(id){
+            let token =  sessionStorage.getItem('userLogado')
+            console.log(token)
+            headers.append('Authorization', `Bearer ${token}`)
+            fetch(`http://localhost:8080/contatos/${id}`,{
+                headers: headers
+            })
             .then(data => data.json())
             .then(response => console.log(response))
         }
 
-        function consultarById(id){
-            fetch(`http://localhost:8080/contatos/${id}`)
+        function consultarContatos(){
+            let token =  sessionStorage.getItem('userLogado') 
+            console.log(token)
+            fetch('http://localhost:8080/contatos',{
+                headers:{'Authorization': `Bearer ${token}`}
+            })
             .then(data => data.json())
             .then(response => console.log(response))
+            .catch(error => console.log(error))
         }
     </script>
 </body>
