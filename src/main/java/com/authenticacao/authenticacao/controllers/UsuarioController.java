@@ -3,6 +3,7 @@ package com.authenticacao.authenticacao.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,8 @@ public class UsuarioController {
 		if(this.repository.findByEmail(user.getEmail()) != null) {
 		  return ResponseEntity.badRequest().build();
 		}
-		
+		String passwordEndoded = new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(passwordEndoded);
 		Usuario novoUsuario = repository.save(user);
 		return  ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
 	}
