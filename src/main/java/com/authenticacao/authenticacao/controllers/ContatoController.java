@@ -12,4 +12,10 @@ public class ContatoController {
 	public ResponseEntity<?> getContatos(){
 		return  ResponseEntity.status(HttpStatus.OK).body("lista de contatos");
 	}
+	
+	@GetMapping("/produtos")
+	public ResponseEntity<?> getProdutos(){
+		return  ResponseEntity.status(HttpStatus.OK).body("lista de produtos");
+	}	
+	
 }

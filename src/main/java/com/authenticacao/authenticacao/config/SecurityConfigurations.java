@@ -2,6 +2,7 @@ package com.authenticacao.authenticacao.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,10 @@ public class SecurityConfigurations {
 	   return http
 			  .csrf(csrf -> csrf.disable())
 			  .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		      .build();
+			  .authorizeHttpRequests(authorize -> authorize
+					  .requestMatchers(HttpMethod.GET,"/contatos").permitAll()
+					  .anyRequest().authenticated()
+					 )
+			  .build();
    }
 }
