@@ -46,6 +46,11 @@ public class UsuarioController {
 		if(this.repository.findByEmail(user.getEmail()) != null) {
 		  return ResponseEntity.badRequest().build();
 		}
+		
+		/*if(user.getRole().equals("ADMIN")){
+			return ResponseEntity.badRequest().build();
+		}*/
+		
 		String passwordEndoded = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(passwordEndoded);
 		Usuario novoUsuario = repository.save(user);
