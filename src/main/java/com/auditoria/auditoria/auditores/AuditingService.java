@@ -10,7 +10,7 @@ public class AuditingService implements AuditorAware<String> {
 
 	@Override
 	public Optional<String> getCurrentAuditor() {
-		return Optional.of("Vilson");
+		return Optional.of("Pedrinho");
 	}
 
 }
