@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auditoria.auditoria.entities.Cliente;
 import com.auditoria.auditoria.entities.Produto;
+import com.auditoria.auditoria.repositories.ClienteRepository;
 import com.auditoria.auditoria.repositories.ProdutoRepository;
 
 @RestController
 public class MeuController {
 	@Autowired
 	ProdutoRepository produtoRepository;
+	
+	@Autowired
+	ClienteRepository clienteRepository;
    
 	//http://localhost:8080/minhalista
 	@GetMapping("/minhalista")
@@ -45,5 +50,26 @@ public class MeuController {
 		Produto prodAlterado = produtoRepository.save(oldProd);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(prodAlterado);
+	}
+	
+	@GetMapping("/clientes")
+	public ResponseEntity<?> getAllClientes(){
+		return ResponseEntity.ok().body(clienteRepository.findAll());
+	}
+	
+	@PostMapping("/clientes")
+	public ResponseEntity<?> saveCliente(@RequestBody Cliente cliente){
+		Cliente newCliente = clienteRepository.save(cliente);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newCliente);
+	}
+	
+	@PutMapping("/clientes/{id}")
+	public ResponseEntity<?> alterarCliente(@PathVariable("id") Long id, @RequestBody Cliente cliente){
+		Cliente oldCliente = clienteRepository.findById(id).get();
+		oldCliente.setDescricao(cliente.getDescricao());
+				
+		Cliente clienteAlterado = clienteRepository.save(oldCliente);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(clienteAlterado);
 	}
 }
