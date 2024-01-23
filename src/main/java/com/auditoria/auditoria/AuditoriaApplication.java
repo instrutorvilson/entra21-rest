@@ -9,17 +9,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import com.auditoria.auditoria.auditores.AuditingService;
 
 @SpringBootApplication
-@EnableJpaAuditing(auditorAwareRef = "auditingService")
+//@EnableJpaAuditing(auditorAwareRef = "auditingService")
 public class AuditoriaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuditoriaApplication.class, args);
 	}
 	
-	@Bean
+	/*@Bean
 	AuditorAware<String> auditorProvider(){
 		return new AuditingService();
-	}
+	}*/
 
 }
 
