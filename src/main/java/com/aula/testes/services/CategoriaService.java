@@ -20,4 +20,8 @@ public class CategoriaService {
 	}
 	
 	
+	public void excluir(Long id) {
+		repository.deleteById(id);
+	}
+	
 }

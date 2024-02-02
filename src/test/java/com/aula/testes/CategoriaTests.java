@@ -23,7 +23,7 @@ public class CategoriaTests {
 	CategoriaRepository repository; //recurso mokado
 	
 	@InjectMocks
-	CategoriaService service; // recurso que está sendo testado
+	CategoriaService service; //recurso que está sendo testado
 
 	@Test
 	public void retornaObjetoQuandoSalvaCategoria() {	
@@ -43,9 +43,18 @@ public class CategoriaTests {
 		Mockito.when(repository.save(newCategoria)).thenReturn(newCategoria);
 		
 		Assertions.assertThrows(RuntimeException.class, ()-> service.salvar(newCategoria));
-		Mockito.verify(repository, Mockito.times(0)).save(newCategoria);
-				
-	}
+		Mockito.verify(repository, Mockito.times(0)).save(newCategoria);//não chama porque ocorreu a exceção
+    }
+	
+	@Test
+	public void naoRetornaNadaQuandoExcluiCategoriaExistente() {	
+		
+		service.excluir(1l);
+		Mockito.doNothing().when(repository).deleteById(1L);
+		Mockito.verify(repository, Mockito.times(1)).deleteById(1l);
+		Assertions.assertDoesNotThrow(()-> service.excluir(1L));
+    }
+	
 	
 	
 }
