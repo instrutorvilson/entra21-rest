@@ -1,6 +1,7 @@
-package com.aula.testes;
+package com.aula.testes.unitarios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doThrow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import com.aula.testes.repositories.CategoriaRepository;
 import com.aula.testes.services.CategoriaService;
 
 @ExtendWith(SpringExtension.class)
-public class CategoriaTests {
+public class CategoriaServiceTests {
 	@Mock
 	CategoriaRepository repository; //recurso mokado
 	
@@ -37,7 +38,7 @@ public class CategoriaTests {
 	}
 	
 	@Test
-	public void lancaRuntimeExcptionQuandoSalvaCategoriaSemDescricao() {	
+	public void lancaRuntimeExceptionQuandoSalvaCategoriaSemDescricao() {	
 		Categoria newCategoria = new Categoria();
 		newCategoria.setDescricao("");
 		Mockito.when(repository.save(newCategoria)).thenReturn(newCategoria);
@@ -47,8 +48,20 @@ public class CategoriaTests {
     }
 	
 	@Test
-	public void naoRetornaNadaQuandoExcluiCategoriaExistente() {	
-		
+	public void doThrowQuandoSalvaCategoriaSemDescricao() {	
+		Categoria newCategoria = new Categoria();
+		newCategoria.setDescricao("");
+		doThrow(new RuntimeException("Descrição é necessário")).when(repository).save(newCategoria);
+		try {
+			repository.save(newCategoria);
+		}
+		catch(RuntimeException e) {
+			assertEquals("Descrição é necessário", e.getMessage());
+		}
+    }
+	
+	@Test
+	public void naoRetornaNadaQuandoExcluiCategoriaExistente() {
 		service.excluir(1l);
 		Mockito.doNothing().when(repository).deleteById(1L);
 		Mockito.verify(repository, Mockito.times(1)).deleteById(1l);
