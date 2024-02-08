@@ -1,5 +1,10 @@
 package com.aula.testes.services;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,14 @@ public class CategoriaService {
 	  return(repository.save(categoria));
 	}
 	
+	public List<Categoria> consultar(){
+		return repository.findAll();
+	}
+	
+	public Categoria consultar(Long id){
+		Optional<Categoria> opt = repository.findById(id);
+		return opt.orElseThrow();
+	}
 	
 	public void excluir(Long id) {
 		repository.deleteById(id);
